@@ -4,6 +4,9 @@ const express = require("express");
 // Görev adreslerini tanımladığımız dosyayı kullanıma alır.
 const taskRoutes = require("./routes/taskRoutes");
 
+// Logger middleware'ini kullanıma alır.
+const logger = require("./middleware/logger");
+
 // Express uygulamasını oluşturur.
 const app = express();
 
@@ -12,6 +15,9 @@ const PORT = 3000;
 
 // Gelen isteklerdeki JSON verilerini okuyabilmezi sağlar.
 app.use(express.json());
+
+// Tüm API isteklerini logger middleware'inden geçirir.
+app.use(logger);
 
 // Ana adrese gelen GET isteklerini karşılar.
 // req: Gelen isteğin bilgilerini tutar.
