@@ -12,12 +12,20 @@ let nextId = 2;
 
 // Görevleri listeler ve istenirse duruma göre filtreler.
 router.get("/", (req, res) => {
-  // Adresten gönderilen status değerini alır.
+  // Adresten gönderilen status ve priority değerlerini alır.
   const status = req.query.status;
+  const priority = req.query.priority;
 
   // Status gönderildiyse sadece o duruma sahip görevleri filtreler.
   if (status) {
     const filteredTasks = tasks.filter((task) => task.status === status);
+
+    return res.json(filteredTasks);
+  }
+
+  // Priority gönderildiyse sadece o önceliğe sahip görevleri filtreler.
+  if (priority) {
+    const filteredTasks = tasks.filter((task) => task.priority === priority);
 
     return res.json(filteredTasks);
   }
