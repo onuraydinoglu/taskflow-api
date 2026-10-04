@@ -15,6 +15,25 @@ router.get("/", (req, res) => {
   res.json(tasks);
 });
 
+// Adreste gönderilen numaraya göre belirli bir görevi getirir.
+router.get("/:id", (req, res) => {
+  // Adresten gelen id değerini sayıya çevirir.
+  const taskId = Number(req.params.id);
+
+  // Görevler arasında id değeri eşleşen görevi bulur.
+  const task = tasks.find((task) => task.id === taskId);
+
+  // Görev bulunamadıysa 404 durum koduyla hata mesajı gönderir.
+  if (!task) {
+    return res.status(404).json({
+      message: "Görev bulunamadı.",
+    });
+  }
+
+  // Bulunan görevi cevap olarak gönderir.
+  res.json(task);
+});
+
 router.post("/", (req, res) => {
   // İsteğin gövdesindeki bilgileri yeni görev nesnesine yerleştirir.
   const newTask = {
