@@ -5,7 +5,7 @@ const tasks = [
     title: "Giriş sayfasını hazırla",
     description: "E-Posta ve şifre alanlarını ekle",
     assignee: "Onur",
-    status: "pedding",
+    status: "pending",
     priority: "high",
   },
 ];
