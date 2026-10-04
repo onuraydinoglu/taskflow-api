@@ -1,6 +1,9 @@
 // Express paketini projeye dahil eder.
 const express = require("express");
 
+// Görev adreslerini tanımladığımız dosyayı kullanıma alır.
+const taskRoutes = require("./routes/taskRoutes");
+
 // Express uygulamasını oluşturur.
 const app = express();
 
@@ -17,6 +20,9 @@ app.get("/", (req, res) => {
   // Tarayıcıya veya Postman'e bir cevap gönderir.
   res.send("Taskflow API çalışıyor.");
 });
+
+// /tasks ile başlayan istekleri görev yönlendiricisine gönderir.
+app.use("/tasks", taskRoutes);
 
 // Sunucuyu belirtilen portta başlatır.
 app.listen(PORT, () => {
