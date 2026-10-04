@@ -20,6 +20,13 @@ router.get("/", (req, res) => {
   if (status) {
     const filteredTasks = tasks.filter((task) => task.status === status);
 
+    // Filtre sonucunda görev bulunamadıysa bilgi mesajı gönderir.
+    if (filteredTasks.length === 0) {
+      return res.json({
+        message: "Filtreye uygun görev bulunamadı.",
+      });
+    }
+
     return res.json(filteredTasks);
   }
 
@@ -27,7 +34,21 @@ router.get("/", (req, res) => {
   if (priority) {
     const filteredTasks = tasks.filter((task) => task.priority === priority);
 
+    // Filtre sonucunda görev bulunamadıysa bilgi mesajı gönderir.
+    if (filteredTasks.length === 0) {
+      return res.json({
+        message: "Filtreye uygun görev bulunamadı.",
+      });
+    }
+
     return res.json(filteredTasks);
+  }
+
+  // Görev listesi boşsa bilgi mesajı gönderir.
+  if (tasks.length === 0) {
+    return res.json({
+      message: "Henüz görev bulunamadı.",
+    });
   }
 
   // Status gönderilmediyse tüm görevleri gönderir.
