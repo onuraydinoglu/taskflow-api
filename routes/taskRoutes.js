@@ -10,8 +10,19 @@ const router = express.Router();
 // Listede 1 numaralı örnek görev olduğu için yeni numaraları 2'den başlatır.
 let nextId = 2;
 
-// Görev listeleme isteğine şimdilik boş bir liste gönderir.
+// Görevleri listeler ve istenirse duruma göre filtreler.
 router.get("/", (req, res) => {
+  // Adresten gönderilen status değerini alır.
+  const status = req.query.status;
+
+  // Status gönderildiyse sadece o duruma sahip görevleri filtreler.
+  if (status) {
+    const filteredTasks = tasks.filter((task) => task.status === status);
+
+    return res.json(filteredTasks);
+  }
+
+  // Status gönderilmediyse tüm görevleri gönderir.
   res.json(tasks);
 });
 
