@@ -55,5 +55,31 @@ router.post("/", (req, res) => {
   res.status(201).json(newTask);
 });
 
+// Adreste gönderilen numaraya göre belirli bir görevi günceller.
+router.put("/:id", (req, res) => {
+  // Adresten gelen id değerini sayıya çevirir.
+  const taskId = Number(req.params.id);
+
+  // Görevler arasında id değeri eşleşen görevi bulur.
+  const task = tasks.find((task) => task.id === taskId);
+
+  // Görev bulunamadıysa 404 durum koduyla hata mesajı gönderir.
+  if (!task) {
+    return res.status(404).json({
+      message: "Görev bulunamadı.",
+    });
+  }
+
+  // Görevin bilgilerini isteğin gövdesinden gelen yeni bilgilerle değiştirir.
+  task.title = req.body.title;
+  task.description = req.body.description;
+  task.assignee = req.body.assignee;
+  task.status = req.body.status;
+  task.priority = req.body.priority;
+
+  // Güncellenen görevi cevap olarak gönderir.
+  res.json(task);
+});
+
 // Yönlendiriciyi başka dosyalarda kullanabilmek için dışa aktarır.
 module.exports = router;
