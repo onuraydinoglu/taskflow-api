@@ -81,5 +81,29 @@ router.put("/:id", (req, res) => {
   res.json(task);
 });
 
+// Adreste gönderilen numaraya göre belirli bir görevi siler.
+router.delete("/:id", (req, res) => {
+  // Adresten gelen id değerini sayıya çevirir.
+  const taskId = Number(req.params.id);
+
+  // Görevler arasında id değeri eşleşen görevin sırasını bulur.
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+
+  // Görev bulunamadıysa 404 durum koduyla hata mesajı gönderir.
+  if (taskIndex === -1) {
+    return res.status(404).json({
+      message: "Görev bulunamadı.",
+    });
+  }
+
+  // Bulunan görevi görev listesinden siler.
+  tasks.splice(taskIndex, 1);
+
+  // Görevin başarıyla silindiğini bildirir.
+  res.json({
+    message: "Görev başarıyla silindi.",
+  });
+});
+
 // Yönlendiriciyi başka dosyalarda kullanabilmek için dışa aktarır.
 module.exports = router;
