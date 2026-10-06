@@ -77,6 +77,34 @@ router.get("/", (req, res) => {
   res.json(filteredTasks);
 });
 
+// Görevleri başlıklarında geçen anahtar kelimeye göre arar.
+router.get("/search", (req, res) => {
+  // Adresten gönderilen keyword değerini alır.
+  const keyword = req.query.keyword;
+
+  // Aranacak kelime gönderilmediyse bilgi mesajı gönderir.
+  if (!keyword) {
+    return res.json({
+      message: "Arama yapmak için bir kelime girin.",
+    });
+  }
+
+  // Görevlerin başlığında anahtar kelime geçen görevleri filtreler.
+  const searchedTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(keyword.toLowerCase()),
+  );
+
+  // Arama sonucunda görev bulunamadıysa bilgi mesajı gönderir.
+  if (searchedTasks.length === 0) {
+    return res.json({
+      message: "Aramaya uygun görev bulunamadı.",
+    });
+  }
+
+  // Arama sonucunda bulunan görevleri gönderir.
+  res.json(searchedTasks);
+});
+
 // Adreste gönderilen numaraya göre belirli bir görevi getirir.
 router.get("/:id", (req, res) => {
   // Adresten gelen id değerini sayıya çevirir.
