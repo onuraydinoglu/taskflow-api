@@ -105,6 +105,27 @@ router.get("/search", (req, res) => {
   res.json(searchedTasks);
 });
 
+// Adreste gönderilen çalışan adına göre görevleri listeler.
+router.get("/assignee/:name", (req, res) => {
+  // Adresten gönderilen çalışan adını alır.
+  const name = req.params.name;
+
+  // Çalışan adı eşleşen görevleri filtreler.
+  const assigneeTasks = tasks.filter(
+    (task) => task.assignee.toLowerCase() === name.toLowerCase(),
+  );
+
+  // Çalışana ait görev bulunamadıysa bilgi mesajı gönderir.
+  if (assigneeTasks.length === 0) {
+    return res.json({
+      message: "Bu çalışana ait görev bulunamadı.",
+    });
+  }
+
+  // Çalışana ait bulunan görevleri cevap olarak gönderir.
+  res.json(assigneeTasks);
+});
+
 // Adreste gönderilen numaraya göre belirli bir görevi getirir.
 router.get("/:id", (req, res) => {
   // Adresten gelen id değerini sayıya çevirir.
