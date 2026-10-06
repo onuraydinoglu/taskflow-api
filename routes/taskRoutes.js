@@ -16,8 +16,29 @@ router.get("/", (req, res) => {
   const status = req.query.status;
   const priority = req.query.priority;
 
+  // Filtreleme işlemlerinde kullanılmak üzere görev listesini başlangıç değeri olarak alır.
+  let filteredTasks = tasks;
+
   // Status gönderildiyse sadece o duruma sahip görevleri filtreler.
   if (status) {
+    filteredTasks = filteredTasks.filter((task) => task.status === status);
+  }
+
+  // Priority gönderildiyse sadece o önceliğe sahip görevleri filtreler.
+  if (priority) {
+    filteredTasks = filteredTasks.filter((task) => task.priority === priority);
+  }
+
+  // Filtre gönderildiği halde uygun görev bulunamadıysa bilgi mesajı gönderir.
+  if ((status || priority) && filteredTasks.length === 0) {
+    return res.json({
+      message: "Filtreye uygun görev bulunamadı.",
+    });
+  }
+
+  {
+    /*   if (status) {
+    // Status gönderildiyse sadece o duruma sahip görevleri filtreler.
     const filteredTasks = tasks.filter((task) => task.status === status);
 
     // Filtre sonucunda görev bulunamadıysa bilgi mesajı gönderir.
@@ -42,6 +63,7 @@ router.get("/", (req, res) => {
     }
 
     return res.json(filteredTasks);
+  } */
   }
 
   // Görev listesi boşsa bilgi mesajı gönderir.
@@ -51,8 +73,8 @@ router.get("/", (req, res) => {
     });
   }
 
-  // Status gönderilmediyse tüm görevleri gönderir.
-  res.json(tasks);
+  // Filtreleme sonucunda kalan görevleri gönderir.
+  res.json(filteredTasks);
 });
 
 // Adreste gönderilen numaraya göre belirli bir görevi getirir.
