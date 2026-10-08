@@ -16,6 +16,9 @@ router.get("/", (req, res) => {
   const status = req.query.status;
   const priority = req.query.priority;
 
+  // Adresten gönderilen sıralama değerini alır.
+  const sort = req.query.sort;
+
   // Adresten gönderilen sayfa numarası ve sayfa başına görev sayısını alır.
   const page = Number(req.query.page);
   const limit = Number(req.query.limit);
@@ -47,6 +50,13 @@ router.get("/", (req, res) => {
     });
   }
 
+  // Geçersiz bir sıralama değeri gönderildiyse hata mesajı gönderir.
+  if (sort && sort !== "createdAt") {
+    return res.status(400).json({
+      message: "Geçersiz sıralama değeri.",
+    });
+  }
+
   // Filtreleme işlemlerinde kullanılmak üzere görev listesini başlangıç değeri olarak alır.
   let filteredTasks = tasks;
 
@@ -67,34 +77,11 @@ router.get("/", (req, res) => {
     });
   }
 
-  {
-    /*   if (status) {
-    // Status gönderildiyse sadece o duruma sahip görevleri filtreler.
-    const filteredTasks = tasks.filter((task) => task.status === status);
-
-    // Filtre sonucunda görev bulunamadıysa bilgi mesajı gönderir.
-    if (filteredTasks.length === 0) {
-      return res.json({
-        message: "Filtreye uygun görev bulunamadı.",
-      });
-    }
-
-    return res.json(filteredTasks);
-  }
-
-  // Priority gönderildiyse sadece o önceliğe sahip görevleri filtreler.
-  if (priority) {
-    const filteredTasks = tasks.filter((task) => task.priority === priority);
-
-    // Filtre sonucunda görev bulunamadıysa bilgi mesajı gönderir.
-    if (filteredTasks.length === 0) {
-      return res.json({
-        message: "Filtreye uygun görev bulunamadı.",
-      });
-    }
-
-    return res.json(filteredTasks);
-  } */
+  // Sort değeri createdAt ise görevleri oluşturulma tarihine göre sıralar.
+  if (sort === "createdAt") {
+    filteredTasks = [...filteredTasks].sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+    );
   }
 
   // Görev listesi boşsa bilgi mesajı gönderir.
@@ -200,6 +187,7 @@ router.post("/", (req, res) => {
     assignee: req.body.assignee,
     status: req.body.status,
     priority: req.body.priority,
+    createdAt: new Date(),
   };
 
   // Yeni görevi listenin sonuna ekler.
