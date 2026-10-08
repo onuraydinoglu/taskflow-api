@@ -16,6 +16,37 @@ router.get("/", (req, res) => {
   const status = req.query.status;
   const priority = req.query.priority;
 
+  // Adresten gönderilen sayfa numarası ve sayfa başına görev sayısını alır.
+  const page = Number(req.query.page);
+  const limit = Number(req.query.limit);
+
+  // Page değerinin gönderilip gönderilmediğini kontrol eder.
+  const hasPage = req.query.page !== undefined;
+
+  // Limit değerinin gönderilip gönderilmediğini kontrol eder.
+  const hasLimit = req.query.limit !== undefined;
+
+  // Page veya limit sayı değilse hata mesajı gönderir.
+  if ((hasPage && Number.isNaN(page)) || (hasLimit && Number.isNaN(limit))) {
+    return res.status(400).json({
+      message: "Page ve limit sayı olmalıdır.",
+    });
+  }
+
+  // Page veya limit geçersizse hata mesajı gönderir.
+  if ((hasPage && page < 1) || (hasLimit && limit < 1)) {
+    return res.status(400).json({
+      message: "Page ve limit 1 veya daha büyük olmalı.",
+    });
+  }
+
+  // Page veya limit değerlerinden yalnızca biri gönderildiyse hata mesajı gönderir.
+  if (hasPage !== hasLimit) {
+    return res.status(400).json({
+      message: "Page ve limit birlikte gönderilmelidir.",
+    });
+  }
+
   // Filtreleme işlemlerinde kullanılmak üzere görev listesini başlangıç değeri olarak alır.
   let filteredTasks = tasks;
 
@@ -71,6 +102,21 @@ router.get("/", (req, res) => {
     return res.json({
       message: "Henüz görev bulunamadı.",
     });
+  }
+
+  // Page ve limit birlikte gönderildiyse sayfalanmış görevleri gönderir.
+  if (hasPage && hasLimit) {
+    // İstenen sayfada hangi görevden başlanacağını hesaplar.
+    const startIndex = (page - 1) * limit;
+
+    // İstenen sayfanın biteceği görev sırasını hesaplar.
+    const endIndex = startIndex + limit;
+
+    // Hesaplanan başlangıç ve bitiş sırasına göre görevleri sayfalar.
+    const paginatedTasks = filteredTasks.slice(startIndex, endIndex);
+
+    // Sayfalanmış görevleri cevap olarak gönderir.
+    return res.json(paginatedTasks);
   }
 
   // Filtreleme sonucunda kalan görevleri gönderir.
