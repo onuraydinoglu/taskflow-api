@@ -6,7 +6,8 @@ const tasks = require("../data/tasks");
 
 const router = express.Router();
 
-let nextId = 2;
+let nextId =
+  tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1;
 
 router.get("/", (req, res) => {
   const status = req.query.status;
