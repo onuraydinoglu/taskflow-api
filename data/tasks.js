@@ -1,4 +1,3 @@
-// Görevleri tutan listeyi oluşturur.
 const tasks = [
   {
     id: 1,
@@ -11,5 +10,4 @@ const tasks = [
   },
 ];
 
-// Görev listesini diğer dosyalarda kullanabilmek için dışa aktarır.
 module.exports = tasks;
