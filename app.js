@@ -4,6 +4,9 @@ const express = require("express");
 // Görev adreslerini tanımladığımız dosyayı kullanıma alır.
 const taskRoutes = require("./routes/taskRoutes");
 
+// Raporlama adreslerini tanımladığımız dosyayı kullanıma alır.
+const reportRoutes = require("./routes/reportRoutes");
+
 // Logger middleware'ini kullanıma alır.
 const logger = require("./middleware/logger");
 
@@ -29,6 +32,9 @@ app.get("/", (req, res) => {
 
 // /tasks ile başlayan istekleri görev yönlendiricisine gönderir.
 app.use("/tasks", taskRoutes);
+
+// /reports ile başlayan istekleri raporlama yönlendiricisine gönderir.
+app.use("/reports", reportRoutes);
 
 // Sunucuyu belirtilen portta başlatır.
 app.listen(PORT, () => {
