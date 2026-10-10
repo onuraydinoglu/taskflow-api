@@ -1,6 +1,9 @@
 // Kurulu Express paketini bu dosyada kullanıma alır.
 const express = require("express");
 
+// Görev verilerini doğrulayan validation middleware'ini kullanıma alır.
+const validateTask = require("../middleware/validateTask");
+
 // Görev listesini data klasöründeki dosyadan alır.
 const tasks = require("../data/tasks");
 
@@ -178,7 +181,7 @@ router.get("/:id", (req, res) => {
   res.json(task);
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateTask, (req, res) => {
   // İsteğin gövdesindeki bilgileri yeni görev nesnesine yerleştirir.
   const newTask = {
     id: nextId,
@@ -201,7 +204,7 @@ router.post("/", (req, res) => {
 });
 
 // Adreste gönderilen numaraya göre belirli bir görevi günceller.
-router.put("/:id", (req, res) => {
+router.put("/:id", validateTask, (req, res) => {
   // Adresten gelen id değerini sayıya çevirir.
   const taskId = Number(req.params.id);
 
