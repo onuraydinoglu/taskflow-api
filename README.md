@@ -673,3 +673,34 @@ Bunlara ek olarak aşağıdaki isteğe bağlı özellikler de uygulanmıştır:
 - Sıralama
 - Validation middleware
 - Raporlama servisleri
+
+---
+
+## Ekran Görüntüleri
+
+![Ekran Görüntüsü 1](screenshots/1.png)
+
+![Ekran Görüntüsü 2](screenshots/2.png)
+
+![Ekran Görüntüsü 3](screenshots/3.png)
+
+![Ekran Görüntüsü 4](screenshots/4.png)
+
+![Ekran Görüntüsü 5](screenshots/5.png)
+
+![Ekran Görüntüsü 6](screenshots/6.png)
+
+![Ekran Görüntüsü 7](screenshots/7.png)
+
+![Ekran Görüntüsü 8](screenshots/8.png)
+
+![Ekran Görüntüsü 6](screenshots/9.png)
+
+![Ekran Görüntüsü 7](screenshots/10.png)
+
+![Ekran Görüntüsü 8](screenshots/11.png)
+
+![Ekran Görüntüsü 8](screenshots/12.png)
+
+![Ekran Görüntüsü 8](screenshots/13.png)
+
